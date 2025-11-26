@@ -6,6 +6,8 @@ node_modules/
 .env.local
 .env.*.local
 
+
+
 # Logs
 logs/
 *.log
@@ -37,3 +39,6 @@ Frontend/
 
 # Documentation files
 *.md
+
+Backend\BACKEND_SETUP_GUIDE.md
+Backend\COURSEWORK_SETUP_GUIDE.md
