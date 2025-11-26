@@ -1,0 +1,198 @@
+{
+  "info": {
+    "name": "ClassCart API - Coursework",
+    "description": "Complete API collection for ClassCart coursework testing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Lessons",
+      "item": [
+        {
+          "name": "Get All Lessons",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/lessons",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["lessons"]
+            },
+            "description": "Retrieve all lessons from MongoDB"
+          }
+        },
+        {
+          "name": "Search Lessons",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/lessons/search?q=python",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["lessons", "search"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "python",
+                  "description": "Search query"
+                }
+              ]
+            },
+            "description": "Full-text search across lessons"
+          }
+        },
+        {
+          "name": "Get Lesson by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/lessons/{{lessonId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["lessons", "{{lessonId}}"]
+            },
+            "description": "Get a specific lesson by MongoDB ObjectId"
+          }
+        },
+        {
+          "name": "Update Lesson Spaces",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"availableSpaces\": 8\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/lessons/{{lessonId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["lessons", "{{lessonId}}"]
+            },
+            "description": "Update available spaces for a lesson (decrease when order placed)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"phone\": \"1234567890\",\n  \"lessonIDs\": [\"{{lessonId}}\"],\n  \"numberOfSpaces\": 2\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/orders",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["orders"]
+            },
+            "description": "Create a new order in MongoDB"
+          }
+        },
+        {
+          "name": "Get All Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/orders",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["orders"]
+            },
+            "description": "Retrieve all orders from MongoDB"
+          }
+        },
+        {
+          "name": "Get Order by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/orders/{{orderId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["orders", "{{orderId}}"]
+            },
+            "description": "Get a specific order by MongoDB ObjectId"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Static Images",
+      "item": [
+        {
+          "name": "Get Image",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/images/logo-mobile.svg",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["images", "logo-mobile.svg"]
+            },
+            "description": "Test static image middleware"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["health"]
+        },
+        "description": "Check server and database status"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "lessonId",
+      "value": "REPLACE_WITH_ACTUAL_LESSON_ID",
+      "type": "string"
+    },
+    {
+      "key": "orderId",
+      "value": "REPLACE_WITH_ACTUAL_ORDER_ID",
+      "type": "string"
+    }
+  ]
+}
+
+
