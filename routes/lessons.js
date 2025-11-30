@@ -7,7 +7,21 @@ const { ObjectId } = require('mongodb');
 const { getDB } = require('../config/db');
 
 // GET /lessons - Get all lessons from MongoDB
-router.get('/', async (req, res) => {
+router.get('/', handleLessonListRoute);
+
+// GET /lessons/search - Full-text search (REQUIRED for coursework)
+router.get('/search', handleLessonSearchRoute);
+
+// GET /lessons/:id - Get single lesson by ID
+router.get('/:id', handleSingleLessonRoute);
+
+// PUT /lessons/:id - Update lesson (REQUIRED for coursework)
+// Used to decrease available spaces when order is placed
+router.put('/:id', handleLessonUpdateRoute);
+
+module.exports = router;
+
+async function handleLessonListRoute(req, res) {
     const db = startLessonListFetch();
     try {
         const lessons = await requestLessonListFromDatabase(db);
@@ -15,10 +29,9 @@ router.get('/', async (req, res) => {
     } catch (error) {
         handleLessonListError(res, error);
     }
-});
+}
 
-// GET /lessons/search - Full-text search (REQUIRED for coursework)
-router.get('/search', async (req, res) => {
+async function handleLessonSearchRoute(req, res) {
     const query = startLessonSearch(req);
     if (!query) {
         return respondMissingLessonSearchQuery(res);
@@ -30,10 +43,9 @@ router.get('/search', async (req, res) => {
     } catch (error) {
         handleLessonSearchError(res, error);
     }
-});
+}
 
-// GET /lessons/:id - Get single lesson by ID
-router.get('/:id', async (req, res) => {
+async function handleSingleLessonRoute(req, res) {
     const lessonId = startLessonLookup(req);
     if (!isValidLessonId(lessonId)) {
         return respondInvalidLessonId(res);
@@ -48,11 +60,9 @@ router.get('/:id', async (req, res) => {
     } catch (error) {
         handleLessonFetchError(res, error);
     }
-});
+}
 
-// PUT /lessons/:id - Update lesson (REQUIRED for coursework)
-// Used to decrease available spaces when order is placed
-router.put('/:id', async (req, res) => {
+async function handleLessonUpdateRoute(req, res) {
     const lessonId = startLessonUpdate(req);
     if (!isValidLessonId(lessonId)) {
         return respondInvalidLessonId(res);
@@ -76,9 +86,7 @@ router.put('/:id', async (req, res) => {
     } catch (error) {
         handleLessonUpdateError(res, error);
     }
-});
-
-module.exports = router;
+}
 
 function startLessonListFetch() {
     return getDB();

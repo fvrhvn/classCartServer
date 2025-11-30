@@ -7,7 +7,17 @@ const { ObjectId } = require('mongodb');
 const { getDB } = require('../config/db');
 
 // POST /orders - Create new order (REQUIRED for coursework)
-router.post('/', async (req, res) => {
+router.post('/', handleOrderCreationRoute);
+
+// GET /orders - Get all orders
+router.get('/', handleOrderListRoute);
+
+// GET /orders/:id - Get single order by ID
+router.get('/:id', handleSingleOrderRoute);
+
+module.exports = router;
+
+async function handleOrderCreationRoute(req, res) {
     const payload = startOrderCreation(req);
 
     if (!hasRequiredOrderFields(payload)) {
@@ -25,10 +35,9 @@ router.post('/', async (req, res) => {
     } catch (error) {
         handleOrderCreationError(res, error);
     }
-});
+}
 
-// GET /orders - Get all orders
-router.get('/', async (req, res) => {
+async function handleOrderListRoute(req, res) {
     try {
         const db = startOrderListFetch();
         const orders = await requestOrderList(db);
@@ -36,10 +45,9 @@ router.get('/', async (req, res) => {
     } catch (error) {
         handleOrderListError(res, error);
     }
-});
+}
 
-// GET /orders/:id - Get single order by ID
-router.get('/:id', async (req, res) => {
+async function handleSingleOrderRoute(req, res) {
     const orderId = startOrderLookup(req);
     if (!isValidOrderId(orderId)) {
         return respondInvalidOrderId(res);
@@ -54,9 +62,7 @@ router.get('/:id', async (req, res) => {
     } catch (error) {
         handleSingleOrderError(res, error);
     }
-});
-
-module.exports = router;
+}
 
 function startOrderCreation(req) {
     return req.body;
