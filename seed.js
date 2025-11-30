@@ -91,56 +91,88 @@ const lessons = [
 
 async function seedDatabase() {
     const uri = process.env.MONGODB_URI;
+    validateSeedEnvironment(uri);
     
+    const client = createSeedClient(uri);
+    
+    try {
+        await connectSeedClient(client);
+        const db = selectSeedDatabase(client);
+        await clearExistingLessons(db);
+        await insertSeedLessons(db);
+        await createLessonSearchIndex(db);
+        logInsertedLessonSummary();
+        logSeedCompletion();
+    } catch (error) {
+        handleSeedError(error);
+    } finally {
+        await closeSeedClient(client);
+    }
+}
+
+function validateSeedEnvironment(uri) {
     if (!uri) {
         console.error('❌ ERROR: MONGODB_URI not found in .env file');
         console.error('Please configure your MongoDB Atlas connection string first.');
         process.exit(1);
     }
-    
-    const client = new MongoClient(uri);
-    
-    try {
-        console.log('Connecting to MongoDB Atlas...');
-        await client.connect();
-        console.log('✅ Connected to MongoDB Atlas');
-        
-        const db = client.db(process.env.DB_NAME || 'classcart');
-        
-        // Clear existing lessons (optional - remove if you want to keep existing data)
-        console.log('\nClearing existing lessons...');
-        await db.collection('lessons').deleteMany({});
-        console.log('✅ Existing lessons cleared');
-        
-        // Insert lessons
-        console.log('\nInserting lessons...');
-        const result = await db.collection('lessons').insertMany(lessons);
-        console.log(`✅ Successfully inserted ${result.insertedCount} lessons`);
-        
-        // Create text index for search functionality
-        console.log('\nCreating text index for search...');
-        await db.collection('lessons').createIndex({ 
-            subject: 'text', 
-            location: 'text' 
-        });
-        console.log('✅ Text index created');
-        
-        // Display inserted lessons
-        console.log('\n📚 Inserted Lessons:');
-        lessons.forEach((lesson, index) => {
-            console.log(`   ${index + 1}. ${lesson.subject} (${lesson.location}) - £${lesson.price}`);
-        });
-        
-        console.log('\n✅ Database seeding completed successfully!');
-        console.log('You can now start your server with: npm start');
-        
-    } catch (error) {
-        console.error('❌ Error seeding database:', error);
-        process.exit(1);
-    } finally {
-        await client.close();
-        console.log('\nDatabase connection closed.');
-    }
+}
+
+function createSeedClient(uri) {
+    return new MongoClient(uri);
+}
+
+async function connectSeedClient(client) {
+    console.log('Connecting to MongoDB Atlas...');
+    await client.connect();
+    console.log('✅ Connected to MongoDB Atlas');
+}
+
+function selectSeedDatabase(client) {
+    return client.db(process.env.DB_NAME || 'classcart');
+}
+
+async function clearExistingLessons(db) {
+    console.log('\nClearing existing lessons...');
+    await db.collection('lessons').deleteMany({});
+    console.log('✅ Existing lessons cleared');
+}
+
+async function insertSeedLessons(db) {
+    console.log('\nInserting lessons...');
+    const result = await db.collection('lessons').insertMany(lessons);
+    console.log(`✅ Successfully inserted ${result.insertedCount} lessons`);
+}
+
+async function createLessonSearchIndex(db) {
+    console.log('\nCreating text index for search...');
+    await db.collection('lessons').createIndex({ 
+        subject: 'text', 
+        location: 'text' 
+    });
+    console.log('✅ Text index created');
+}
+
+function logInsertedLessonSummary() {
+    console.log('\n📚 Inserted Lessons:');
+    lessons.forEach((lesson, index) => {
+        console.log(`   ${index + 1}. ${lesson.subject} (${lesson.location}) - £${lesson.price}`);
+    });
+}
+
+function logSeedCompletion() {
+    console.log('\n✅ Database seeding completed successfully!');
+    console.log('You can now start your server with: npm start');
+}
+
+function handleSeedError(error) {
+    console.error('❌ Error seeding database:', error);
+    process.exit(1);
+}
+
+async function closeSeedClient(client) {
+    await client.close();
+    console.log('\nDatabase connection closed.');
 }
 
 // Run the seed function

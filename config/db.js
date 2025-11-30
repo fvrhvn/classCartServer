@@ -27,18 +27,31 @@ let db;
 // Connect to MongoDB Atlas
 async function connectDB() {
     try {
-        await client.connect();
-        await client.db("admin").command({ ping: 1 });
-        console.log("✅ Successfully connected to MongoDB Atlas!");
-        
-        // Get database instance
-        db = client.db(process.env.DB_NAME || 'classcart');
-        
+        await startDatabaseConnection();
+        await verifyDatabaseConnection();
+        initializeDatabaseInstance();
         return db;
     } catch (error) {
-        console.error('❌ MongoDB connection error:', error);
-        process.exit(1);
+        handleDatabaseConnectionError(error);
     }
+}
+
+async function startDatabaseConnection() {
+    await client.connect();
+}
+
+async function verifyDatabaseConnection() {
+    await client.db("admin").command({ ping: 1 });
+    console.log("✅ Successfully connected to MongoDB Atlas!");
+}
+
+function initializeDatabaseInstance() {
+    db = client.db(process.env.DB_NAME || 'classcart');
+}
+
+function handleDatabaseConnectionError(error) {
+    console.error('❌ MongoDB connection error:', error);
+    process.exit(1);
 }
 
 // Get database instance

@@ -1,12 +1,9 @@
-// CLASSCART BACKEND SERVER (Coursework Compliant)
-// Main entry point for Express.js API server
-// Uses MongoDB Atlas with Native Driver (NO MONGOOSE)
+
 
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-// Import database connection
 const { connectDB } = require('./config/db');
 
 // Import routes
@@ -22,7 +19,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors()); // Enable CORS for frontend communication
+app.use(cors({
+    origin: ['http://127.0.0.1:5500', 'http://localhost:5500', 'https://fvrhvn.github.io'],
+}));
 app.use(express.json()); // Parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
@@ -87,32 +86,45 @@ app.use(errorHandler);
 // Start server and connect to MongoDB
 async function startServer() {
     try {
-        // Connect to MongoDB Atlas first
-        await connectDB();
-        
-        // Then start Express server
-        app.listen(PORT, () => {
-            console.log('===========================================');
-            console.log('  ClassCart Backend Server (Coursework)');
-            console.log('===========================================');
-            console.log(`✅ Server running on port ${PORT}`);
-            console.log(`✅ API URL: http://localhost:${PORT}`);
-            console.log(`✅ Database: MongoDB Atlas (Native Driver)`);
-            console.log('');
-            console.log('📚 Endpoints:');
-            console.log(`   GET  /lessons`);
-            console.log(`   GET  /lessons/search?q=query`);
-            console.log(`   GET  /lessons/:id`);
-            console.log(`   PUT  /lessons/:id`);
-            console.log(`   POST /orders`);
-            console.log(`   GET  /orders`);
-            console.log(`   GET  /images/:filename`);
-            console.log('===========================================');
-        });
+        await connectDatabaseForServer();
+        startExpressServer();
     } catch (error) {
-        console.error('Failed to start server:', error);
-        process.exit(1);
+        handleServerStartError(error);
     }
+}
+
+async function connectDatabaseForServer() {
+    await connectDB();
+}
+
+function startExpressServer() {
+    app.listen(PORT, () => {
+        logServerBanner();
+    });
+}
+
+function logServerBanner() {
+    console.log('===========================================');
+    console.log('  ClassCart Backend Server (Coursework)');
+    console.log('===========================================');
+    console.log(`✅ Server running on port ${PORT}`);
+    console.log(`✅ API URL: http://localhost:${PORT}`);
+    console.log(`✅ Database: MongoDB Atlas (Native Driver)`);
+    console.log('');
+    console.log('📚 Endpoints:');
+    console.log(`   GET  /lessons`);
+    console.log(`   GET  /lessons/search?q=query`);
+    console.log(`   GET  /lessons/:id`);
+    console.log(`   PUT  /lessons/:id`);
+    console.log(`   POST /orders`);
+    console.log(`   GET  /orders`);
+    console.log(`   GET  /images/:filename`);
+    console.log('===========================================');
+}
+
+function handleServerStartError(error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
 }
 
 // Start the server
