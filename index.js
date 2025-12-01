@@ -31,8 +31,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Static Image Middleware (REQUIRED for coursework)
-// Serves images from Frontend/assets at /images endpoint
 app.use('/images', imageLogger, staticImages);
 
 // API Routes (REQUIRED structure for coursework)
