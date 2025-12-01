@@ -1,7 +1,12 @@
-# Node modules
-.node_modules/
-# Environment variables
-.env/
+# Ignore node_modules in Backend folder
+node_modules/
+
+# Ignore environment files in Backend folder
+.env/   
+Backend/.env.local
+Backend/.env.*.local
+
+
 .env.local
 .env.*.local
 
