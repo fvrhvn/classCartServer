@@ -1,0 +1,21 @@
+[
+  { "id": 1, "subject": "Artificial Intelligence", "location": "Birmingham", "price": 130, "spaces": 5, "icon": "fas fa-robot", "img_url": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=900" },
+  
+  { "id": 2, "subject": "Graphic Design", "location": "Glasgow", "price": 85, "spaces": 5, "icon": "fas fa-paint-brush", "img_url": "https://images.unsplash.com/photo-1506089676908-3592f7389d4d?auto=format&fit=crop&q=80&w=900" },
+  
+  { "id": 3, "subject": "Cybersecurity", "location": "Newcastle", "price": 120, "spaces": 5, "icon": "fas fa-shield-alt", "img_url": "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&q=80&w=900" },
+  
+  { "id": 4, "subject": "3D Animation", "location": "Sheffield", "price": 110, "spaces": 5, "icon": "fas fa-cubes", "img_url": "https://images.unsplash.com/photo-1581091870627-3a173beeeef1?auto=format&fit=crop&q=80&w=900" },
+  
+  { "id": 5, "subject": "UI/UX Design", "location": "Leicester", "price": 95, "spaces": 5, "icon": "fas fa-layer-group", "img_url": "https://images.unsplash.com/photo-1580894894513-5412e1f5f8f6?auto=format&fit=crop&q=80&w=900" },
+  
+  { "id": 6, "subject": "Mobile App Development", "location": "York", "price": 140, "spaces": 5, "icon": "fas fa-mobile-alt", "img_url": "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80&w=900" },
+  
+  { "id": 7, "subject": "Digital Marketing", "location": "Bath", "price": 80, "spaces": 5, "icon": "fas fa-bullhorn", "img_url": "https://images.unsplash.com/photo-1555421689-d68471e189f2?auto=format&fit=crop&q=80&w=900" },
+  
+  { "id": 8, "subject": "Web Development", "location": "Reading", "price": 125, "spaces": 5, "icon": "fas fa-code", "img_url": "https://images.unsplash.com/photo-1551033406-611cf9a28f67?auto=format&fit=crop&q=80&w=900" },
+  
+  { "id": 9, "subject": "AI Prompt Engineering", "location": "Nottingham", "price": 115, "spaces": 5, "icon": "fas fa-brain", "img_url": "https://images.unsplash.com/photo-1581090464777-4e27b48ff24e?auto=format&fit=crop&q=80&w=900" },
+  
+  { "id": 10, "subject": "Photography", "location": "London", "price": 90, "spaces": 5, "icon": "fas fa-camera", "img_url": "https://images.unsplash.com/photo-1504208434309-cb69f4fe52b0?auto=format&fit=crop&q=80&w=900" }
+]

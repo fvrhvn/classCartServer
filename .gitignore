@@ -1,8 +1,7 @@
 # Node modules
-node_modules/
-
+source/node_modules/
 # Environment variables
-.env
+source/env/
 .env.local
 .env.*.local
 
