@@ -17,7 +17,7 @@ const MONGO_URI = process.env.DB_URI;
 
 const app = express();
 app.use(cors({
-  origin: ["http://localhost:53123", "null", "http://localhost:3000", "*"],
+  origin: ["http://localhost:53123", "null", "http://localhost:3000", "https://fvrhvn.github.io"],
   methods: "GET,POST,PUT,DELETE",
 }));
 
