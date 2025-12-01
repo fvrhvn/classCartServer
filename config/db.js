@@ -24,7 +24,7 @@ const client = new MongoClient(uri, {
 
 let db;
 
-// Connect to MongoDB Atlas
+
 async function connectDB() {
     try {
         await startDatabaseConnection();
