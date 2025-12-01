@@ -15,8 +15,7 @@ router.get('/search', handleLessonSearchRoute);
 // GET /lessons/:id - Get single lesson by ID
 router.get('/:id', handleSingleLessonRoute);
 
-// PUT /lessons/:id - Update lesson (REQUIRED for coursework)
-// Used to decrease available spaces when order is placed
+
 router.put('/:id', handleLessonUpdateRoute);
 
 module.exports = router;
