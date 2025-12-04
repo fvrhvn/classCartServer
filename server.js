@@ -4,6 +4,7 @@ const cors = require('cors');
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
+
 const classRoutes = require('./routes/classes');
 const cartRoutes = require('./routes/cart');
 const checkoutRoutes = require('./routes/checkout');
@@ -23,7 +24,7 @@ app.use(cors({
 
 app.use(bodyParser.json());
 app.use(logger);
-app.get('/images/:filename', imageMiddleware);
+// app.get('/images/:filename', imageMiddleware);
 
 // MongoDB connection URL
 const client = new MongoClient(MONGO_URI);
